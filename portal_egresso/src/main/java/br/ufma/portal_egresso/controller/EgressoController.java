@@ -79,9 +79,10 @@ public class EgressoController {
     }
 
     @GetMapping("/buscar_dados_egresso")
-    public ResponseEntity buscar_dados_egresso(@RequestParam("id") Long id) {
+    public ResponseEntity buscar_dados_egresso(@RequestParam("id") String id) {
         try {
-            Egresso egresso = service.buscar_por_id(id);
+            Long id_egresso_long = Long.valueOf(id).longValue();
+            Egresso egresso = service.buscar_por_id(id_egresso_long);
             return ResponseEntity.ok(egresso);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -89,15 +90,15 @@ public class EgressoController {
     }
 
     @PostMapping("/editar")
-    public ResponseEntity editar(@RequestParam("id") Long id,
+    public ResponseEntity editar(@RequestParam("id") String id,
                                  @RequestParam("nome") String nome,
                                  @RequestParam("email") String email,
                                  @RequestParam("cpf") String cpf,
                                  @RequestParam("resumo") String resumo) {
         try {
-
+            Long id_egresso_long = Long.valueOf(id).longValue();
             Egresso egresso = Egresso.builder()
-                    .id(id)
+                    .id(id_egresso_long)
                     .nome(nome)
                     .email(email)
                     .cpf(cpf)
@@ -113,9 +114,10 @@ public class EgressoController {
 
 
     @GetMapping("/dados_egresso")
-    public ResponseEntity busca_dados_pagina_egresso(@RequestParam("id") Long id) {
+    public ResponseEntity busca_dados_pagina_egresso(@RequestParam("id") String id) {
         try {
-            Egresso egresso = service.busca_dados_pagina_egresso(id);
+            Long id_egresso_long = Long.valueOf(id).longValue();
+            Egresso egresso = service.busca_dados_pagina_egresso(id_egresso_long);
             return ResponseEntity.ok(egresso);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());

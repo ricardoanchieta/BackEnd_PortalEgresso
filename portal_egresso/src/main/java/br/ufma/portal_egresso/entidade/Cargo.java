@@ -28,7 +28,4 @@ public class Cargo {
 
     @Column(name="descricao")
     private String descricao;
-
-    @OneToMany(mappedBy = "cargo")
-    private List<ProfEgresso> profEgressos;
 }

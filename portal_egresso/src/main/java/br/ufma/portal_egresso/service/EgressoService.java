@@ -98,7 +98,27 @@ public class EgressoService {
     if(egresso.isEmpty())
       throw new RegraNegocioRunTime("Erro ao buscar");
 
-    return egresso.get();
+    Egresso egressoFiltrado = Egresso.builder()
+            .id(egresso.get().getId())
+            .nome(egresso.get().getNome())
+            .cpf(egresso.get().getCpf())
+            .email(egresso.get().getEmail())
+            .resumo(egresso.get().getResumo()).build();
+//    if(!egresso.get().getDepoimentos().isEmpty()){
+//      egressoFiltrado.builder().depoimentos(egresso.get().getDepoimentos()).build();
+//    }
+//    if(!egresso.get().getContatos().isEmpty()){
+//      egressoFiltrado.builder().contatos(egresso.get().getContatos()).build();
+//    }
+//    if(!egresso.get().getCursoEgresso().isEmpty()){
+//      egressoFiltrado.builder().cursoEgresso(egresso.get().getCursoEgresso()).build();
+//    }
+//    if(!egresso.get().getProfEgressos().isEmpty()){
+//      egressoFiltrado.builder().profEgressos(egresso.get().getProfEgressos()).build();
+//    }
+
+
+    return egressoFiltrado;
   }
 
   public Egresso busca_dados_pagina_egresso(Long id){

@@ -41,9 +41,10 @@ public class CursoEgressoController {
     CursoService serviceCurso;
 
     @GetMapping("/listar")
-    public ResponseEntity listar(@RequestParam("id_egresso") Long id_egresso) {
+    public ResponseEntity listar(@RequestParam("id_egresso") String id_egresso) {
         try {
-            Egresso egresso = serviceEgresso.buscar_por_id(id_egresso);
+            Long id_egresso_long = Long.valueOf(id_egresso).longValue();
+            Egresso egresso = serviceEgresso.buscar_por_id(id_egresso_long);
             List<CursoEgresso> cursos = service.buscar_por_Egresso(egresso);
 
             return ResponseEntity.ok(cursos);

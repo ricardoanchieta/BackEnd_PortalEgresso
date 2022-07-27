@@ -18,12 +18,22 @@ import java.time.LocalDate;
 
 public class ProfEgresso {
     @Id
+    @Column(name="id_prof_egresso")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_prof_egresso")
     private Long id;
 
+    @Column(name="empresa")
+    private String empresa;
+
+    @Column(name="descricao")
+    private String descricao;
+
+    @Column(name = "data_registro")
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    private LocalDate dataRegistro;
+
     @ManyToOne
-    @JoinColumn(name="egresso_id")
+    @JoinColumn(name = "egresso_id")
     private Egresso egresso;
 
     @ManyToOne
@@ -33,15 +43,4 @@ public class ProfEgresso {
     @ManyToOne
     @JoinColumn(name = "faixa_salario_id")
     private FaixaSalario faixaSalario;
-
-    @Column(name = "empresa")
-    private String empresa;
-
-    @Column(name = "descricao")
-    private String descricao;
-
-    @Column(name = "data_registro")
-    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
-    private LocalDate dataRegistro;
-
 }
