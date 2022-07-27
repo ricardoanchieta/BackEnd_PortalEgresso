@@ -1,43 +1,72 @@
 package br.ufma.portal_egresso.service;
-
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufma.portal_egresso.entidade.Curso;
-import br.ufma.portal_egresso.entidade.Egresso;
+import br.ufma.portal_egresso.entidade.CursoEgresso;
+import br.ufma.portal_egresso.entidade.repositorio.CursoEgressoRepo;
 import br.ufma.portal_egresso.entidade.repositorio.CursoRepo;
-import br.ufma.portal_egresso.service.exceptions.ErroCargoRunTime;
-import br.ufma.portal_egresso.service.exceptions.ErroCursoRunTime;
+import br.ufma.portal_egresso.service.exceptions.RegraNegocioRunTime;
 
 @Service
 public class CursoService {
+
   @Autowired
-  CursoRepo repository;
+  CursoRepo repo;
 
-  public Curso salvarCurso(Curso curso) {
-    verificarCurso(curso);
-    return repository.save(curso);
+  @Autowired
+  CursoEgressoRepo repoCursoEgresso;
+
+  public List<Curso> listar(){
+    return repo.obterCursos();
   }
 
-
-  public List<Egresso> getEgressos(Curso curso) {
-    return repository.consultarEgressos(curso.getId());
+  public Curso salvar(Curso curso) {
+    verificarDadosCurso(curso);
+    return repo.save(curso);
   }
 
-  public Long getQuantitativoEgressos(Curso curso) {
-    return repository.quantitativoEgressos(curso.getId());
+  public Curso editar(Curso curso) {
+    verificarId(curso);
+    verificarCursoEgresso(curso);
+    return salvar(curso);
+  }
+
+  public void remover(Long id) {
+    if(id == null)  throw new RegraNegocioRunTime("curso não encontrado");
+    Optional<Curso> curso = repo.findById(id);
+    verificarCursoEgresso(curso.get());
+    repo.delete(curso.get());
+  }
+
+  public Curso buscarPorId(Long id) {
+    if(id == null)  throw new RegraNegocioRunTime("curso não selecionado");
+    Optional<Curso> curso = repo.findById(id);
+    if(curso.isEmpty()) throw new RegraNegocioRunTime("curso não encontrado");
+    return curso.get();
   }
 
   private void verificarId(Curso curso) {
     if ((curso == null) || (curso.getId() == null))
-      throw new ErroCursoRunTime("Curso inválido");
+      throw new RegraNegocioRunTime("curso não encontrado "+curso.getId());
   }
 
-  private void verificarCurso(Curso curso) {
-    verificarId(curso);
+  private void verificarDadosCurso(Curso curso){
+    if (curso == null)
+      throw new RegraNegocioRunTime("erro ao verificar dados curso");
     if ((curso.getNome() == null) || (curso.getNome().equals("")))
-      throw new ErroCargoRunTime("Nome não pode ser vazio");
+      throw new RegraNegocioRunTime("nome do curso deve ser informado");
+    if ((curso.getNivel() == null) || (curso.getNivel().equals("")))
+      throw new RegraNegocioRunTime("nivel do curso deve ser informado");
   }
+
+  private void verificarCursoEgresso(Curso curso) {
+    List<CursoEgresso> res = repoCursoEgresso.findByCurso(curso);
+    if (!res.isEmpty())
+      throw new RegraNegocioRunTime("Curso informado está sendo utilizado");
+  }
+
 }

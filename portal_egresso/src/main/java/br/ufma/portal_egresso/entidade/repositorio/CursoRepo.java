@@ -14,17 +14,10 @@ public interface CursoRepo extends JpaRepository<Curso,Long> {
     boolean existsByNome(String nome);
     List<Curso> findByNome(String nome);
 
-    @Query(
-        value = "SELECT e " + 
-                "FROM ((Egresso e INNER JOIN CursoEgresso ce ON e.id_egresso = ce.egresso_id) " +
-                "INNER JOIN Curso c ON c.id_curso = ce.curso_id AND c.id_curso = :id_curso)", 
-        nativeQuery = true)
-    public List<Egresso> consultarEgressos(@Param("id_curso") Long idCurso);
+    @Query("select c from Curso c ")
+    List<Curso> obterCursos();
 
-    @Query(
-        value = "SELECT count(e) " + 
-                "FROM ((Egresso e INNER JOIN CursoEgresso ce ON e.id_egresso = ce.egresso_id) " +
-                "INNER JOIN Curso c ON c.id_curso = ce.curso_id AND c.id_curso = :id_curso)", 
-        nativeQuery = true)
-    public Long quantitativoEgressos(@Param("id_curso") Long idCurso);
+    @Query("select c from Curso c where c.nivel=:nivelCurso")
+    List<Curso> obterCursosPorNivel(
+            @Param("nivelCurso") String nivelCurso);
 }

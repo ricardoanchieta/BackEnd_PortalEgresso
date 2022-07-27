@@ -1,27 +1,65 @@
 package br.ufma.portal_egresso.controller;
 
-import br.ufma.portal_egresso.entidade.Egresso;
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.security.Principal;
+import java.util.List;
+
 import br.ufma.portal_egresso.entidade.dto.EgressoDTO;
-import br.ufma.portal_egresso.entidade.repositorio.EgressoRepo;
-import br.ufma.portal_egresso.service.EgressoService;
-import br.ufma.portal_egresso.service.exceptions.ErroEgressoRunTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import br.ufma.portal_egresso.entidade.dto.ContatoEgressoDTO;
+import br.ufma.portal_egresso.entidade.Cargo;
+import br.ufma.portal_egresso.entidade.Contato;
+import br.ufma.portal_egresso.entidade.ContatoEgresso;
+import br.ufma.portal_egresso.entidade.Curso;
+import br.ufma.portal_egresso.entidade.CursoEgresso;
+import br.ufma.portal_egresso.entidade.Egresso;
+import br.ufma.portal_egresso.entidade.FaixaSalario;
+import br.ufma.portal_egresso.entidade.ProfEgresso;
+import br.ufma.portal_egresso.service.EgressoService;
+import br.ufma.portal_egresso.service.CargoService;
+import br.ufma.portal_egresso.service.ContatoService;
+import br.ufma.portal_egresso.service.CursoService;
+import br.ufma.portal_egresso.service.FaixaSalarioService;
+import br.ufma.portal_egresso.service.exceptions.RegraNegocioRunTime;
 
 @RestController
 @RequestMapping("/api/egresso")
-
 public class EgressoController {
 
     @Autowired
     EgressoService service;
+
+    @Autowired
+    CursoService serviceCurso;
+    @Autowired
+    ContatoService serviceContato;
+    @Autowired
+    CargoService serviceCargo;
+    @Autowired
+    FaixaSalarioService serviceFaixaSalario;
+
+    @GetMapping("/listar")
+    public ResponseEntity listar() {
+        try {
+            List<String> egressos = service.listar();
+            return ResponseEntity.ok(egressos);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @PostMapping("/salvar")
     public ResponseEntity salvarEgresso (@RequestBody EgressoDTO request){
@@ -35,20 +73,59 @@ public class EgressoController {
         try {
             Egresso salvo = service.salvarEgresso(egresso);
             return new ResponseEntity(salvo, HttpStatus.CREATED);
-        }catch (ErroEgressoRunTime ex){
+        }catch (RegraNegocioRunTime ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity deleteEgresso(@RequestBody EgressoDTO request){
-        Long id = request.getId();
-
-        try{
-            service.deletarEgresso(id);
-            return new ResponseEntity("Egresso deletado com sucesso",HttpStatus.ACCEPTED);
-        }catch (ErroEgressoRunTime ex){
-            return ResponseEntity.badRequest().body(ex.getMessage());
+    @GetMapping("/buscar_dados_egresso")
+    public ResponseEntity buscar_dados_egresso(@RequestParam("id") Long id) {
+        try {
+            Egresso egresso = service.buscar_por_id(id);
+            return ResponseEntity.ok(egresso);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/editar")
+    public ResponseEntity editar(@RequestParam("id") Long id,
+                                 @RequestParam("nome") String nome,
+                                 @RequestParam("email") String email,
+                                 @RequestParam("cpf") String cpf,
+                                 @RequestParam("resumo") String resumo) {
+        try {
+
+            Egresso egresso = Egresso.builder()
+                    .id(id)
+                    .nome(nome)
+                    .email(email)
+                    .cpf(cpf)
+                    .resumo(resumo)
+                    .build();
+
+            Egresso salvo = service.editar(egresso);
+            return ResponseEntity.ok(salvo);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/dados_egresso")
+    public ResponseEntity busca_dados_pagina_egresso(@RequestParam("id") Long id) {
+        try {
+            Egresso egresso = service.busca_dados_pagina_egresso(id);
+            return ResponseEntity.ok(egresso);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/egresso", method = RequestMethod.GET)
+    @ResponseBody
+    public Egresso currentUser(Principal principal) {
+        return service.obterEgressoPorEmail(principal.getName());
+    }
+
 }
