@@ -17,20 +17,9 @@ public class ContatoEgressoService {
     ContatoEgressoRepo repo;
 
     public ContatoEgresso salvar(ContatoEgresso contatoEgresso){
-        verificarDadosContatoEgresso(contatoEgresso);
-        return repo.save(contatoEgresso);
-    }
-
-    public void editarLista(List<ContatoEgresso> contatoEgressoList){
-        for (ContatoEgresso contatoEgresso : contatoEgressoList) {
-            verificarId(contatoEgresso);
-            salvar(contatoEgresso);
-        }
-    }
-
-    public ContatoEgresso editar(ContatoEgresso contatoEgresso) {
         verificarId(contatoEgresso);
-        return salvar(contatoEgresso);
+        //verificarDadosContatoEgresso(contatoEgresso);
+        return repo.save(contatoEgresso);
     }
 
     public void remover(ContatoEgresso contatoEgresso) {

@@ -89,12 +89,4 @@ public class CursoEgressoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
-
-
-
-
-
-
 }

@@ -111,23 +111,4 @@ public class EgressoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
-    @GetMapping("/dados_egresso")
-    public ResponseEntity busca_dados_pagina_egresso(@RequestParam("id") String id) {
-        try {
-            Long id_egresso_long = Long.valueOf(id).longValue();
-            Egresso egresso = service.busca_dados_pagina_egresso(id_egresso_long);
-            return ResponseEntity.ok(egresso);
-        } catch(RegraNegocioRunTime e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @RequestMapping(value = "/egresso", method = RequestMethod.GET)
-    @ResponseBody
-    public Egresso currentUser(Principal principal) {
-        return service.obterEgressoPorEmail(principal.getName());
-    }
-
 }

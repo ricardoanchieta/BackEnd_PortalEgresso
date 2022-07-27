@@ -48,37 +48,14 @@ public class CargoController {
         }
     }
 
-    @PostMapping("/editar")
-    public ResponseEntity editar(@RequestParam("id") Long id,
-                                 @RequestParam("nome") String nome,
-                                 @RequestParam("descricao") String descricao) {
-
-        try {
-            Cargo cargo = Cargo.builder()
-                    .id(id)
-                    .nome(nome)
-                    .descricao(descricao).build();
-
-            Cargo salvo = service.editar(cargo);
-            return ResponseEntity.ok(salvo);
-        } catch(RegraNegocioRunTime e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
     @PostMapping("/remover")
-    public ResponseEntity remover(@RequestParam("id") Long id) {
+    public ResponseEntity remover(@RequestBody CargoDTO request) {
 
         try {
-            service.remover(id);
+            service.remover(request.getId());
             return ResponseEntity.ok(true);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
-
-
-
 }
