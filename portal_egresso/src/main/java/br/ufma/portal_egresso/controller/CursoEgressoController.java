@@ -1,9 +1,14 @@
 package br.ufma.portal_egresso.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.ufma.portal_egresso.service.ContatoService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +30,7 @@ import br.ufma.portal_egresso.service.CursoService;
 import br.ufma.portal_egresso.service.exceptions.RegraNegocioRunTime;
 
 @RestController
-@RequestMapping("/api/cursos_egresso")
+@RequestMapping("/api/curso_egresso")
 public class CursoEgressoController {
 
     @Autowired
@@ -55,7 +60,6 @@ public class CursoEgressoController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity cadastrar(@RequestBody CursoEgressoDTO dto) {
-
 
         try {
             Egresso egresso = serviceEgresso.buscar_por_id(dto.getId_egresso());
