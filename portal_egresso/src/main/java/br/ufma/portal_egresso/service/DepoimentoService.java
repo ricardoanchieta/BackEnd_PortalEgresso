@@ -42,9 +42,9 @@ public class DepoimentoService {
     return repo.findAll(Sort.by("data"));
   }
 
-  public List<Depoimento> buscar_por_egresso(long egresso_id) {
-    //List<Depoimento> depoimentos = repo.findByEgresso(egresso);
-    List<Depoimento> depoimentos = repo.findByEgressoId(egresso_id);
+  public List<Depoimento> buscar_por_egresso(Egresso egresso) {
+    List<Depoimento> depoimentos = repo.findByEgresso(egresso);
+    //List<Depoimento> depoimentos = repo.findByEgressoId(egresso_id);
     return depoimentos;
   }
 

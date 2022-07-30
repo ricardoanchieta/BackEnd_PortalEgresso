@@ -98,12 +98,12 @@ public class EgressoService {
     if(egresso.isEmpty())
       throw new RegraNegocioRunTime("Erro ao buscar");
 
-    Egresso egressoFiltrado = Egresso.builder()
-            .id(egresso.get().getId())
-            .nome(egresso.get().getNome())
-            .cpf(egresso.get().getCpf())
-            .email(egresso.get().getEmail())
-            .resumo(egresso.get().getResumo()).build();
+//    Egresso egressoFiltrado = Egresso.builder()
+//            .id(egresso.get().getId())
+//            .nome(egresso.get().getNome())
+//            .cpf(egresso.get().getCpf())
+//            .email(egresso.get().getEmail())
+//            .resumo(egresso.get().getResumo()).build();
 //    if(!egresso.get().getDepoimentos().isEmpty()){
 //      egressoFiltrado.builder().depoimentos(egresso.get().getDepoimentos()).build();
 //    }
@@ -118,7 +118,7 @@ public class EgressoService {
 //    }
 
 
-    return egressoFiltrado;
+    return egresso.get();
   }
 
   public Egresso busca_dados_pagina_egresso(Long id){
@@ -133,8 +133,8 @@ public class EgressoService {
     return repo.findByEmail(email);
   }
 
-  public List<String> listar(){
-    List<String> egressos = repo.getAllEgressos();
+  public List<Egresso> listar(){
+    List<Egresso> egressos = repo.getAllEgressos();
     if(egressos.isEmpty()) throw new RegraNegocioRunTime("Erro ao buscar os egressos");
     return egressos;
   }

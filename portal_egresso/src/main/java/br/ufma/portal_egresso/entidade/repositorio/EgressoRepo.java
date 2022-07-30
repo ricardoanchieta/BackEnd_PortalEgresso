@@ -21,6 +21,6 @@ public interface EgressoRepo extends JpaRepository<Egresso, Long> {
 //    List<Egresso> getAllEgressosByNome(
 //            @Param("nomeEgresso") String nomeEgresso);
 
-    @Query("SELECT egressos.nome from Egresso egressos")
-    List<String> getAllEgressos();
+    @Query("SELECT egressos from Egresso egressos")
+    List<Egresso> getAllEgressos();
 }

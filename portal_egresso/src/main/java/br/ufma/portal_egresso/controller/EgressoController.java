@@ -53,7 +53,7 @@ public class EgressoController {
     @GetMapping("/listar")
     public ResponseEntity listar() {
         try {
-            List<String> egressos = service.listar();
+            List<Egresso> egressos = service.listar();
             return ResponseEntity.ok(egressos);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -83,6 +83,7 @@ public class EgressoController {
         try {
             Long id_egresso_long = Long.valueOf(id).longValue();
             Egresso egresso = service.buscar_por_id(id_egresso_long);
+
             return ResponseEntity.ok(egresso);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -110,5 +111,10 @@ public class EgressoController {
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @RequestMapping(value = "/egresso", method = RequestMethod.GET)
+    @ResponseBody
+    public Egresso usuarioAtual(Principal principal) {
+        return service.obterEgressoPorEmail(principal.getName());
     }
 }

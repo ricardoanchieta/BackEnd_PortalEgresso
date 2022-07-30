@@ -39,19 +39,19 @@ public class Egresso {
     @Column(name="url_foto")
     private String url_foto;
 
-    @ManyToMany
-    @JoinTable(
-            name = "contato_egresso",
-            joinColumns = @JoinColumn(name="contato_id"),
-            inverseJoinColumns = @JoinColumn(name="egresso_id"))
-    Set<Contato> contatos;
-
-    @OneToMany(mappedBy = "egresso")
-    private Set<CursoEgresso> cursoEgresso;
-
-    @OneToMany(mappedBy = "egresso")
-    private List<Depoimento> depoimentos;
-
-    @OneToMany(mappedBy = "egresso")
-    private List<ProfEgresso> profEgressos;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "contato_egresso",
+//            joinColumns = @JoinColumn(name="contato_id"),
+//            inverseJoinColumns = @JoinColumn(name="egresso_id"))
+//    Set<Contato> contatos;
+//
+//    @OneToMany(mappedBy = "egresso")
+//    private Set<CursoEgresso> cursoEgresso;
+//
+//    @OneToMany(mappedBy = "egresso")
+//    private List<Depoimento> depoimentos;
+//
+//    @OneToMany(mappedBy = "egresso")
+//    private List<ProfEgresso> profEgressos;
 }

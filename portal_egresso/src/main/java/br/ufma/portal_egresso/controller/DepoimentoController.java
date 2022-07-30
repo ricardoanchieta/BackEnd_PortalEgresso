@@ -38,17 +38,15 @@ public class DepoimentoController {
     @Autowired
     EgressoRepo egressoRepo;
 
-    @PostMapping("/listar")
-    public ResponseEntity listar(@RequestBody DepoimentoDTO request) {
-        Long id_egresso = request.getId_egresso();
+    @GetMapping("/listar")
+    public ResponseEntity listar(@RequestParam("id_egresso") Long id_egresso) {
+        try {
+            Egresso egresso = serviceEgresso.buscar_por_id(id_egresso);
+            List<Depoimento> depoimentos = service.buscar_por_egresso(egresso);
 
-        Egresso egresso = egressoRepo.getById(id_egresso);
-
-        try{
-            List<Depoimento> depoimentos = service.depoimentosPorEgresso(egresso);
-            return new ResponseEntity(depoimentos, HttpStatus.ACCEPTED);
-        }catch (RuntimeException ex){
-            return ResponseEntity.badRequest().body(ex.getMessage());
+            return ResponseEntity.ok(depoimentos);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

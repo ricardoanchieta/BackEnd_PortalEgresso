@@ -28,6 +28,6 @@ public class Curso {
     @Column(name="nivel")
     private String nivel;
 
-    @OneToMany(mappedBy = "curso")
-    private Set<CursoEgresso> cursoEgresso;
+//    @OneToMany(mappedBy = "curso")
+//    private Set<CursoEgresso> cursoEgresso;
 }
