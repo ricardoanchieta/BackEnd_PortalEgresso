@@ -37,13 +37,13 @@ public class ContatoEgressoController {
     @Autowired
     ContatoService serviceContato;
 
-    @PostMapping("/listar")
-    public ResponseEntity listar(@RequestParam ContatoEgressoDTO request) {
+    @GetMapping("/listar")
+    public ResponseEntity listar(@RequestParam("id_egresso") Long id_egresso) {
         try {
-            Egresso egresso = serviceEgresso.buscar_por_id(request.getEgresso_id());
+            Egresso egresso = serviceEgresso.buscar_por_id(id_egresso);
             List<ContatoEgresso> contatos = service.buscar_por_Egresso(egresso);
 
-            return ResponseEntity.ok(contatos);
+            return ResponseEntity.ok(contatos); 
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -54,10 +54,17 @@ public class ContatoEgressoController {
         Egresso egresso = serviceEgresso.buscar_por_id(request.getEgresso_id());
         Contato contato = serviceContato.buscarPorId(request.getContato_id());
 
+        ContatoEgressoPK contatoEgressoPK = ContatoEgressoPK.builder()
+                .contatoId(request.getContato_id())
+                .egressoId(request.getEgresso_id())
+                .build();
+
         ContatoEgresso contatoEgresso = ContatoEgresso.builder()
+                .id(contatoEgressoPK)
                 .egresso(egresso)
                 .contato(contato)
-                .descricao(request.getDescricao()).build();
+                .build();
+
         try {
 
             service.salvar(contatoEgresso);

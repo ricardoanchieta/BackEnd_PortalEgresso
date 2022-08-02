@@ -34,7 +34,7 @@ public class ContatoEgresso {
     @JoinColumn(name = "contato_id")
     private Contato contato;
 
-    @Column(name = "descricao")
-    private String descricao;
+//    @Column(name = "descricao")
+//    private String descricao;
 
 }

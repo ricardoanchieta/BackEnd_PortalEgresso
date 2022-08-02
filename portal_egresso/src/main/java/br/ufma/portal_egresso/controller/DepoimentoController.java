@@ -67,14 +67,13 @@ public class DepoimentoController {
     }
 
     @PostMapping("/editar")
-    public ResponseEntity editar(@RequestParam("id") Long id,
-                                 @RequestParam("texto") String texto) {
+    public ResponseEntity editar(@RequestBody DepoimentoDTO request) {
         try {
-            Depoimento dep = service.buscarPorId(id);
+            Depoimento dep = service.buscarPorId(request.getId());
             Depoimento depoimento = Depoimento.builder()
-                    .id(id)
+                    .id(request.getId())
                     .egresso(dep.getEgresso())
-                    .texto(texto)
+                    .texto(request.getTexto())
                     .data(LocalDate.now()).build();
 
             Depoimento salvo = service.editar(depoimento);

@@ -12,7 +12,7 @@ public interface ContatoEgressoRepo extends JpaRepository<ContatoEgresso, Long> 
 
     List<ContatoEgresso> findByEgresso(Egresso egresso);
     List<ContatoEgresso> findByContato(Contato contato);
-    List<ContatoEgresso> findByDescricao(String descricao);
+//    List<ContatoEgresso> findByDescricao(String descricao);
     void deleteByEgresso(Egresso egresso);
 
 }

@@ -17,8 +17,8 @@ public class ContatoEgressoService {
     ContatoEgressoRepo repo;
 
     public ContatoEgresso salvar(ContatoEgresso contatoEgresso){
-        verificarId(contatoEgresso);
-        //verificarDadosContatoEgresso(contatoEgresso);
+        //verificarId(contatoEgresso);
+        verificarDadosContatoEgresso(contatoEgresso);
         return repo.save(contatoEgresso);
     }
 

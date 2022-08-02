@@ -49,11 +49,11 @@ public class ContatoController {
         }
     }
 
-    @PostMapping("/remover")
-    public ResponseEntity remover(@RequestBody ContatoDTO request) {
+    @GetMapping("/remover")
+    public ResponseEntity remover(@RequestParam("id_contato") Long id_contato) {
 
         try {
-            service.remover(request.getId());
+            service.remover(id_contato);
             return ResponseEntity.ok(true);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
