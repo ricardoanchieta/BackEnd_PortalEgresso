@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface ProfEgressoRepo extends JpaRepository<ProfEgresso,Long> {
     List<ProfEgresso> findByEmpresaContaining(String empresa);
-
     List<ProfEgresso> findByEgresso(Egresso egresso);
     List<ProfEgresso> findByCargo(Cargo cargo);
     List<ProfEgresso> findByFaixaSalario(FaixaSalario faixa_salario);
