@@ -9,14 +9,7 @@ import br.ufma.portal_egresso.entidade.dto.EgressoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufma.portal_egresso.entidade.dto.ContatoEgressoDTO;
 import br.ufma.portal_egresso.entidade.Cargo;
@@ -50,6 +43,7 @@ public class EgressoController {
     @Autowired
     FaixaSalarioService serviceFaixaSalario;
 
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @GetMapping("/listar")
     public ResponseEntity listar() {
         try {
