@@ -53,7 +53,7 @@ public class CursoEgressoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @PostMapping("/cadastrar")
     public ResponseEntity cadastrar(@RequestBody CursoEgressoDTO dto) {
 
@@ -73,7 +73,7 @@ public class CursoEgressoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @PostMapping("/remover")
     public ResponseEntity remover(@RequestBody CursoEgressoPK id) {
 
@@ -85,4 +85,46 @@ public class CursoEgressoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+//    @GetMapping("/getEgressosPorCurso")
+//    public ResponseEntity getEgressosPorCurso(@RequestParam("id_curso") String id_curso){
+//        try {
+//            Long id_curso_long = Long.valueOf(id_curso).longValue();
+//            Long quantidade = service.getQuantidadeEgressoPorCurso(id_curso_long);
+//
+//            return ResponseEntity.ok(quantidade);
+//        } catch(RegraNegocioRunTime e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
+    @GetMapping("/listarEgressosPorCurso")
+    public ResponseEntity listaEgressosPorCurso(@RequestParam("id_curso") String id_curso) {
+
+        try {
+            Long id_curso_long = Long.valueOf(id_curso).longValue();
+            Curso curso = serviceCurso.buscarPorId(id_curso_long);
+
+            List<CursoEgresso> resp = service.listarEgressosPorCurso(curso);
+            Integer quantidade = resp.size();
+            return ResponseEntity.ok(quantidade);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/TotalDeEgressosEmCursos")
+    public ResponseEntity listaTotalEgressosEmCursos() {
+        try {
+            List<CursoEgresso> egressosComCurso = service.listar();
+            String quantidade = String.valueOf((egressosComCurso.size()));
+            String resposta = "{\"total_egressos\": \"" + quantidade + "\"}";
+            return ResponseEntity.ok(resposta);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

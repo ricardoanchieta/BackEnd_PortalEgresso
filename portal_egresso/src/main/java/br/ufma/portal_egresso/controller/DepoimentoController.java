@@ -12,12 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufma.portal_egresso.entidade.Depoimento;
 import br.ufma.portal_egresso.entidade.Egresso;
@@ -38,6 +33,7 @@ public class DepoimentoController {
     @Autowired
     EgressoRepo egressoRepo;
 
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @GetMapping("/listar")
     public ResponseEntity listar(@RequestParam("id_egresso") Long id_egresso) {
         try {
@@ -49,7 +45,7 @@ public class DepoimentoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @PostMapping("/cadastrar")
     public ResponseEntity cadastrar(@RequestBody DepoimentoDTO request) {
 
@@ -65,7 +61,7 @@ public class DepoimentoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @PostMapping("/editar")
     public ResponseEntity editar(@RequestBody DepoimentoDTO request) {
         try {
@@ -82,7 +78,7 @@ public class DepoimentoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @PostMapping("/remover")
     public ResponseEntity remover(@RequestBody DepoimentoDTO request) {
 
