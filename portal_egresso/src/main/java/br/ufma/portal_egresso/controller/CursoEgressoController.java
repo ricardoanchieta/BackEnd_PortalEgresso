@@ -100,21 +100,48 @@ public class CursoEgressoController {
 
     @CrossOrigin(origins = "http://127.0.0.1:5173")
     @GetMapping("/listarEgressosPorCurso")
-    public ResponseEntity listaEgressosPorCurso(@RequestParam("id_curso") String id_curso) {
+    public ResponseEntity listaEgressosPorCurso() {
 
         try {
-            Long id_curso_long = Long.valueOf(id_curso).longValue();
-            Curso curso = serviceCurso.buscarPorId(id_curso_long);
+            //Curso curso = serviceCurso.buscarPorId(id_curso_long);
 
-            List<CursoEgresso> resp = service.listarEgressosPorCurso(curso);
-            Integer quantidade = resp.size();
-            return ResponseEntity.ok(quantidade);
+
+            List<Curso> cursos = serviceCurso.listar();
+            List<String> respostaFinal = new ArrayList<>();
+
+            for(int i=0; i< cursos.size();i++){
+                String nomeCurso = cursos.get(i).getNome();
+                nomeCurso = trataNome(nomeCurso);
+                Long id = cursos.get(i).getId();
+                Curso curso = serviceCurso.buscarPorId(id);
+                List<CursoEgresso> resp = service.listarEgressosPorCurso(curso);
+                Integer quantidade = resp.size();
+
+                String conteudo = "\""+ nomeCurso +"\": \"" + quantidade + "\"";
+
+                respostaFinal.add(conteudo);
+            }
+
+            String respostaFinalString = "{"+ respostaFinal.toString() + "}";
+
+            respostaFinalString = respostaFinalString.replace("[","");
+            respostaFinalString = respostaFinalString.replace("]","");
+
+
+            //List<CursoEgresso> resp = service.listarEgressosPorCurso(curso);
+            //Integer quantidade = resp.size();
+            return ResponseEntity.ok(respostaFinalString);
         } catch(RegraNegocioRunTime e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+    private String trataNome(String nome){
+        nome = nome.replace(" ","_");
+        return nome;
+    }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @GetMapping("/TotalDeEgressosEmCursos")
     public ResponseEntity listaTotalEgressosEmCursos() {
         try {
