@@ -25,6 +25,7 @@ import br.ufma.portal_egresso.service.CursoService;
 import br.ufma.portal_egresso.service.exceptions.RegraNegocioRunTime;
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 @RequestMapping("/api/curso_egresso")
 public class CursoEgressoController {
 

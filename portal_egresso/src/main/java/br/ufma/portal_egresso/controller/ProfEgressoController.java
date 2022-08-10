@@ -7,12 +7,7 @@ import java.util.List;
 import br.ufma.portal_egresso.entidade.dto.FaixaSalarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufma.portal_egresso.entidade.Cargo;
 import br.ufma.portal_egresso.entidade.Egresso;
@@ -26,6 +21,7 @@ import br.ufma.portal_egresso.entidade.dto.ProfEgressoDTO;
 import br.ufma.portal_egresso.service.exceptions.RegraNegocioRunTime;
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 @RequestMapping("/api/profissoes")
 public class ProfEgressoController {
 

@@ -28,6 +28,7 @@ import br.ufma.portal_egresso.service.FaixaSalarioService;
 import br.ufma.portal_egresso.service.exceptions.RegraNegocioRunTime;
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 @RequestMapping("/api/egresso")
 public class EgressoController {
 
@@ -106,6 +107,18 @@ public class EgressoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/egresso_por_email")
+    public ResponseEntity egresso_por_email(@RequestParam("email") String email) {
+        try {
+            Egresso egresso = service.obterEgressoPorEmail(email);
+
+            return ResponseEntity.ok(egresso);
+        } catch(RegraNegocioRunTime e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @RequestMapping(value = "/egresso", method = RequestMethod.GET)
     @ResponseBody
     public Egresso usuarioAtual(Principal principal) {
